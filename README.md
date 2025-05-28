@@ -45,10 +45,6 @@ An automated conveyor sorting system that sorts items by height using Factory I/
 
 ---
 
-Would you like a matching “Conclusion” or “Next Steps” section too?
-
----
-
 ## Author
 
 **Mohamed Fathi Merbouni**  
