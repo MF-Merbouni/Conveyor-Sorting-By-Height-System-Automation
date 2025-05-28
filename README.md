@@ -15,11 +15,6 @@ An automated conveyor sorting system that sorts items by height using Factory I/
 
 ---
 
-## How it Works
-Here’s a clearer and more professional version of your **"How it Works"** section for your GitHub `README.md`:
-
----
-
 ## How It Works
 
 * A **feeder conveyor** introduces pallets carrying boxes onto the main conveyor line.
@@ -39,6 +34,28 @@ Here’s a clearer and more professional version of your **"How it Works"** sect
 4. Run the system and observe the sorting process
 
 ---
+## What We Learned
 
+* How to design and simulate a real-time **automated sorting system** using Factory I/O
+* Practical experience with **PLC programming** using Structured Text (ST) in **CODESYS**
+* Implementing **sensor-based decision logic** to control actuators (e.g., diverters, conveyors)
+* Establishing **communication between CODESYS and Factory I/O** using Modbus TCP
+* Tracking system performance with **counters and sensors** for item verification
+* Organizing a complete automation project with **GitHub**
 
+---
+
+Would you like a matching “Conclusion” or “Next Steps” section too?
+
+---
+
+## Author
+
+**Mohamed Fathi Merbouni**  
+_Aspiring Automation Engineer_
+
+---
+
+## Contributing
+Feedback and improvements are welcome. Fork the repo and submit a pull request!
  
