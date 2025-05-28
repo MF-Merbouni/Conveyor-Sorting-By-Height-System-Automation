@@ -20,7 +20,7 @@ Here’s a clearer and more professional version of your **"How it Works"** sect
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 * A **feeder conveyor** introduces pallets carrying boxes onto the main conveyor line.
 * Each box passes through a **height detection sensor** positioned above the conveyor.
@@ -32,4 +32,13 @@ Here’s a clearer and more professional version of your **"How it Works"** sect
 
 ---
 
+ ## How to Run
+1. Open the Factory I/O scene
+2. Open the CODESYS project
+3. Establish Modbus/TCP communication
+4. Run the system and observe the sorting process
 
+---
+
+
+ 
