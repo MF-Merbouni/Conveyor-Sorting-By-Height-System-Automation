@@ -1,0 +1,50 @@
+{attribute 'qualified_only'}
+VAR_GLOBAL
+		// INPUTS
+	//I.H/L SENS
+	iHigh_sensor : BOOL;
+	iLow_sensor : BOOL;
+	iPallet_sensor : BOOL;
+	iLoaded : BOOL;
+
+	//I.LEFT SENS
+	iAt_left_entry : BOOL;
+	iAt_left_exit : BOOL;
+	
+	//I.RIGHT SENS
+	iAt_right_entry : BOOL;
+	iAt_right_exit : BOOL;
+	
+	//I.START/STOP BUTTONS
+	iStart : BOOL;
+	iReset : BOOL;
+	iStop : BOOL;
+	iEmergency_stop : BOOL;
+	//END.INPUTS
+	
+		//OUTPUTS
+	oConveyor_entry : BOOL;
+	oLoad : BOOL ;
+	oUnload : BOOL;
+
+	//O.TRANSFER 
+	oTransf_left : BOOL;
+	oTransf_right : BOOL ;
+	
+	//O.CONVEYORS
+	oConveyor_left : BOOL;
+	oConveyor_right : BOOL;
+	
+	//O.LIGHTS
+	oStart_light : BOOL;
+	oReset_light : BOOL;
+	oStop_light : BOOL;
+	//END.OUTPUTS
+	
+	//AUTO/MAN 
+	iAuto : BOOL;
+	
+	//Counters
+	Counter_cv : INT;
+	
+END_VAR

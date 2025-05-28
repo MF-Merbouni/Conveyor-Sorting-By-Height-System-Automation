@@ -1,0 +1,120 @@
+PROGRAM PLC_PRG
+VAR
+	//INTERNAL VAR
+	FacIOR : BOOL;
+	High : BOOL;
+	Low : BOOL;
+	
+	//TIMERS
+	Left_entry_timer : TP;
+	Right_entry_timer : TP;
+	
+	//Counters
+	Counter : INT := 0;
+	
+	//EXTRAS
+	L_High_sensor : R_TRIG;
+	L_Low_sensor : R_TRIG;
+	
+END_VAR
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+
+
+//START/STOP/EMERGENCY/AUTO-MAN
+IF FIO.iStart AND FIO.iAuto AND FIO.iEmergency_stop THEN
+	FacIOR := TRUE;
+ELSIF NOT FIO.iStop OR NOT FIO.iEmergency_stop THEN
+	FacIOR := FALSE;
+END_IF
+
+FIO.oStart_light := FacIOR;
+FIO.oStop_light := NOT FacIOR;
+FIO.oReset_light := FIO.iReset;
+
+// // // // // // // // // // // // // // // // // // // // // // // 
+// ENTRY CONVEYOR 
+IF FacIOR THEN 
+	FIO.oConveyor_entry := TRUE;
+END_IF
+IF FIO.iLoaded OR FIO.oTransf_left OR FIO.oTransf_right THEN
+	FIO.oConveyor_entry := FALSE;
+END_IF
+
+// // // // // // // // // // // // // // // // // // // // // // // 
+
+//  LOAD CONVETOR
+IF FIO.iPallet_sensor THEN
+	FIO.oLoad := TRUE;
+ELSIF FIO.iLoaded OR NOT FacIOR THEN
+	FIO.oLoad := FALSE;
+END_IF
+
+// // // // // // // // // // // // // // // // // // // // // // // 
+
+//  HIGH BOXES GO LEFT 
+IF FIO.iHigh_sensor THEN
+	High := TRUE;
+END_IF
+
+IF NOT FIO.iAt_left_entry OR NOT FacIOR THEN
+	High := FALSE; 
+END_IF
+
+IF High AND FIO.iLoaded THEN 
+	Left_entry_timer(IN := TRUE, PT := T#3S);
+ELSE
+ 	Left_entry_timer(IN := FALSE);
+END_IF
+
+FIO.oTransf_left := Left_entry_timer.Q;
+//  LEFT CONVEYOR 
+IF NOT FIO.iAt_left_entry THEN
+	FIO.oConveyor_left := TRUE;
+END_IF
+
+IF NOT FacIOR THEN
+	FIO.oConveyor_left := FALSE;
+END_IF
+
+// // // // // // // // // // // // // // // // // // // // // // // 
+
+//  LOW BOXES GO RIGHT 
+IF FIO.iLow_sensor AND NOT FIO.iHigh_sensor THEN
+	Low := TRUE;
+END_IF
+
+IF NOT FIO.iAt_right_entry OR NOT FacIOR THEN
+	Low := FALSE; 
+END_IF
+
+IF Low AND FIO.iLoaded THEN 
+	Right_entry_timer(IN := TRUE, PT := T#3S);
+ELSE
+ 	Right_entry_timer(IN := FALSE);
+END_IF
+
+FIO.oTransf_right := Right_entry_timer.Q;
+//  LEFT CONVEYOR 
+IF NOT FIO.iAt_right_entry THEN
+	FIO.oConveyor_right := TRUE;
+END_IF
+
+IF NOT FacIOR THEN
+	FIO.oConveyor_right := FALSE;
+END_IF
+
+// // // // // // // // // // // // // // // // // // // // // // // 
+L_High_sensor(CLK := FIO.iHigh_sensor);
+L_Low_sensor(CLK := FIO.iLow_sensor);
+
+//COUNTER: 
+IF  L_High_sensor.Q OR L_Low_sensor.Q THEN
+	Counter := Counter + 1;
+END_IF
+
+IF FIO.iReset THEN
+	Counter := 0;
+END_IF
+
+FIO.Counter_cv := Counter;
